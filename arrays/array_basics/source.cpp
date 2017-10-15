@@ -26,8 +26,14 @@ using std::to_string;
 
 //function prototypes - these must be declared beforehand
 //let the compiler know that we are implementing functions
+//print array
+void printArray(int arr[], const int size);
+
 //print max
-void printMax(signed short int arr[]);
+void printMax(int arr[], const int size);
+
+//bubble sort
+void bubbleSort(int arr[], const int size);
 
 //--------------------------------------------------------------
 int main () {
@@ -119,13 +125,18 @@ int main () {
 
     //declare an array of ints -> we can apply our algorithms
     //ideally size should be unsigned and const
-    unsigned const int size4 = 10;
+    const int size4 = 10;
     int myInts[size4] = {
         -50, 3, 72, 1104, 80, -910, 23, -33, 9, -10
     };
+    cout << "Array: " << endl;
+    printArray(myInts, size4);
 
     //
     printMax(myInts, size4);
+    
+    bubbleSort(myInts, size4);
+    printArray(myInts, size4);
 
     //
     return 0;
@@ -133,23 +144,74 @@ int main () {
 
 //--------------------------------------------------------------
 //definitions for the functions used
+//print array
+void printArray(int arr[], const int size) {
+    for (int i = 0; i < size; i++) cout << " " << arr[i] << " ";
+    cout << endl;
+}
 
 //finding the maximum value in an array
-void printMax(signed short int arr[], int size) {
+void printMax(int arr[], const int size) {
 
     //the size is usually passede in and not determined here
-    int size = size;
     cout << "The size: " << size << endl;
 
     //
     int max = INT_MIN;
     for (int i = 0; i < size; i++) {
-        
         //check against others
-        if (arr[i] > size) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+
+    //
+    cout << max << endl;
+
+}
+
+//bubble sort
+/*
+*   -   implement the slowest algorithm known to man
+*   -   this is for demonstration and practice
+*/
+void bubbleSort(int arr[], const int size) {
+
+    //we check once if any elements need sorting
+    //do - while
+
+    //bool - keep track
+    bool swapped = false;
+
+    //control - preventing the program getting stuck
+    int iters = 0;
+    int maxIters = size * size;
+
+    //
+    do {
+
+        //reset the swap flag
+        swapped = false;
+    
+        //swap if elemt @ i > i + 1
+        for (int i = 0; i < (size - 1); i++) {
+
+            //
+            if (arr[i] > arr[i + 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;
+            }       
 
         }
 
-    }
+        //
+        iters++;
+
+        //
+        if (!swapped || iters > maxIters) break;
+
+    } while(swapped);
 
 }

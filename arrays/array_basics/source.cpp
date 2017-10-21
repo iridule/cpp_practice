@@ -15,6 +15,7 @@
 #include <iostream>
 #include <string>
 #include <climits>
+#include <cmath>
 
 //we can declare specific things from namespaces we wish to use
 using std::cout;
@@ -34,6 +35,9 @@ void printMax(int arr[], const int size);
 
 //bubble sort
 void bubbleSort(int arr[], const int size);
+
+//binary search
+void binarySearch(int value, int arr[], const int size);
 
 //--------------------------------------------------------------
 int main () {
@@ -79,7 +83,7 @@ int main () {
     for (int i = 0; i < size3; i++) cout << arr3[i];
     cout << endl;
 
-    //we can also assign fly w/o a specified size for the array
+    //we can also assign w/o a specified size for the array
     //this will give it an n size when it compiled
     char arr4[] = {
         'A', 'r', 'r', 'a', 'y', '2'
@@ -138,6 +142,12 @@ int main () {
     bubbleSort(myInts, size4);
     printArray(myInts, size4);
 
+    //a sorted array
+    int myInts2[size4] = {
+        1, 2, 39, 89, 101, 204, 503, 1103, 1200, 1304
+    };
+    binarySearch(89, myInts2, size4);
+
     //
     return 0;
 }
@@ -172,7 +182,7 @@ void printMax(int arr[], const int size) {
 
 //bubble sort
 /*
-*   -   implement the slowest algorithm known to man
+*   -   implement the slowest algorithm known to man (except bogo sort)
 *   -   this is for demonstration and practice
 */
 void bubbleSort(int arr[], const int size) {
@@ -213,5 +223,50 @@ void bubbleSort(int arr[], const int size) {
         if (!swapped || iters > maxIters) break;
 
     } while(swapped);
+
+}
+
+//binary search
+void binarySearch(int value, int arr[], const int size) {
+
+    //index of the found element
+    int index = -1;
+
+    //flag var
+    bool found = false;
+
+    //inital left and right of the array
+    int middle;
+    int left = 0;
+    int right = size - 1;
+
+    //
+    while (left <= right) {
+
+        //the middle element
+        middle = (left + right)/2;
+        cout << "middle: " << middle << endl;
+
+        //base case 
+        //if the middle element is the desired 
+        if (arr[middle] == value) {
+            index = middle;
+            break;
+        } 
+
+        //ignore right half if elem < middle
+        else if (value < arr[middle]) {
+            right = middle - 1;
+        }
+
+        //ignore left half
+        else if (value > arr[middle]) {
+            left = middle + 1;
+        }
+
+    }
+
+    //log the value
+    cout << "The element is at index: " << index << endl;
 
 }

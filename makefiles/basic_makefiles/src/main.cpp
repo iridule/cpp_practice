@@ -47,8 +47,6 @@ int main() {
     */
     #ifdef _linux_
 
-    message = "You are using linux! :]";
-
     std::string line1 = "Hello this is my message!!!";
     std::string line2 = "I really hope that this works!!!";    
     std::string line3 = "This is another test line";        
@@ -58,9 +56,9 @@ int main() {
     printLine(line2);    
     printLine(line3);    
     
-    // //
-    // printLine(std::to_string(add(1, 2)));
-    // printLine(std::to_string(subtract(5, 3)));    
+    //
+    printLine(std::to_string(add(1, 2)));
+    printLine(std::to_string(subtract(5, 3)));    
 
     #endif
 

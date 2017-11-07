@@ -12,6 +12,9 @@
 #include <string>
 #include <utility>
 
+// utils
+void printArray(int arr[], int length);
+
 // quicksort prototypes
 void quicksort(int arr[], int left, int right, int length);
 int partition(int arr[], int pivot, int left, int right, int length);
@@ -20,19 +23,24 @@ int partition(int arr[], int pivot, int left, int right, int length);
 int main() {
 
     //
-    unsigned const int length = 6;
-    int array[length] = { 5, 22, 33, 66, 44, 67 };
+    unsigned const int length = 9;
+    int array[length] = { 654, 5, 1, 12, 6, 4432, 56638, 262, 33 };
     int left = 0;
-    int right = 5;
+    int right = length - 1;
 
     //
-    // std::cout << partition(array, right, left, right, length) << std::endl;
+    std::cout << "unsorted: \n";    
+    printArray(array, length);
     quicksort(array, left, right, length);
+    std::cout << "unsorted: \n";        
+    printArray(array, length);
+    
 
     //
     return 0;
 }
 
+//--------------------------------------------------------------
 // implementation 
 // print
 void printArray(int arr[], int length) {
@@ -46,33 +54,19 @@ void printArray(int arr[], int length) {
 // partition
 int partition(int arr[], int pivot, int left, int right, int length) {
 
-    //
+    // wall will move up
     int wall = left - 1;
-    std::cout << wall << std::endl << std::endl;
 
-    
     // go through all elems and swap accordingly
-    for (int i = left; i <= right; i++) {
-
-        printArray(arr, length);                        
-        
+    for (int i = left; i < right; i++) {
         if (arr[i] <= arr[pivot]) {
-
-            std::cout << "swapped" << std::endl;    
-            std::cout << std::to_string(arr[i]) << "<=" << std::to_string(arr[pivot]) << std::endl;                
-
-            std::swap(arr[i], arr[wall + 1]);
-    
-            printArray(arr, length);    
-            std::cout << arr[i] << " " << arr[wall]<< std::endl;            
-            wall++;
-            std::cout << std::endl;
-
+            std::swap(arr[i], arr[++wall]); 
         }
-        
     }
 
-
+    // swap the last element with itself after 
+    // everything else has been relocated
+    std::swap(arr[right], arr[++wall]);     
 
     // return partition
     return wall;
@@ -83,7 +77,7 @@ int partition(int arr[], int pivot, int left, int right, int length) {
 void quicksort(int arr[], int left, int right, int length) {
 
     //
-    int pivot = right;
+    int pivot;
     int wall;
 
     // base case
@@ -96,7 +90,6 @@ void quicksort(int arr[], int left, int right, int length) {
         int wall = partition(arr, pivot, left, right, length);
 
         // left and right respec
-        std::cout << "hello" << std::endl;
         quicksort(arr, left, wall - 1, length);
         quicksort(arr, wall + 1, right, length);
 

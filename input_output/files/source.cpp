@@ -37,7 +37,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+#include <limits>
 
 //
 int main() {
@@ -68,10 +68,11 @@ int main() {
     }
 
     // 
-    std::cout << "File read - here is the content" << std::endl;
+    std::cout << "\nFile read - here is the content:" << std::endl;
     for (int value : inputFileResult) {
         std::cout << value << std::endl;
     }
+    std::cout << std::endl;    
 
     // read through the file of words
     fileInName = "";
@@ -93,10 +94,12 @@ int main() {
     }
 
     // 
-    std::cout << "File of words read - here is the content" << std::endl;
+    std::cout << "\nFile of words read - here is the content:" << std::endl;
     for (std::string value : inputWordsFileResult) {
         std::cout << value << std::endl;
     }   
+    std::cout << std::endl;
+    
 
     //
     /**
@@ -149,9 +152,9 @@ int main() {
     userDataOutputStream.flush();
 
     //
-    std::cout << "You entered three phrases" << std::endl;    
+    std::cout << "\nYou entered three phrases" << std::endl;    
 
-    std::cout << "Reading those phrases" << std::endl;        
+    std::cout << "Reading those phrases:" << std::endl;        
 
     //
     std::vector <std::string> userData;
@@ -176,7 +179,21 @@ int main() {
      *  
      *  -   use an instance of fstream
      * 
+     * 
+     * 
      */
+    //
+
+    // this code clear data
+    /*
+        // clear previous data
+        // clear cin
+        std::cin.ignore() clears first character
+        std::ignore(std::numeric_limits<std::streamsize>::max()) - ignores while line
+        std::cin >> std::ws clears ws till first non-whitespace
+        std::cin >> std::ws;
+        std::cin.clear();
+    */
     //
 
     // open auto gens the file if it doesn't exist
@@ -184,23 +201,22 @@ int main() {
     std::fstream gameSavesStream;
     
     // all happens here
-    gameSavesStream.open("game_saves.txt", std::fstream::out | std::fstream::in);
+    // append mode adds to end of file
+    gameSavesStream.open("saves", std::fstream::out | std::fstream::app);
 
     //
-    std::cout << "Add some data to the file..." << std::endl;        
-
-    // clear cin
-    std::cin.ignore();
-    std::cin.clear();
+    std::cout << "Add some data to the file..." << std::endl; 
 
     //
     userInput = true;
     amountPhrases = 0;
 
-    while (userInput && amountPhrases <= 3) {
+    while (userInput) {
 
         //
         std::string currentPhrase = "";
+
+        //
         std::cout << "Enter some data..." << std::endl;
         
         //
@@ -208,19 +224,24 @@ int main() {
         gameSavesStream << currentPhrase + '\n';
 
         //
+        if (amountPhrases >= 2) break;        
         amountPhrases++;
-        if (amountPhrases == 3) {
-            userInput = false; 
-            break;
-        }
+        
 
     }
 
     // flush again
     gameSavesStream.flush();
     
-    // change to read pointer
-    gameSavesStream.seekg(0, std::ios_base::beg);
+    // change to read pointer to in/out in the same stream
+    // gameSavesStream.seekg(0, std::ios_base::beg);
+
+    gameSavesStream.close();    
+    //  
+
+    // reading saved words in file
+    // we only want to read the data
+    gameSavesStream.open("saves", std::fstream::in);    
 
     //
     std::cout << "Reading the file..." << '\n' << std::endl;        
@@ -232,11 +253,11 @@ int main() {
         gameSavesData.push_back(gameSaveUnit);
     }
 
-    gameSavesStream.close();    
-    //  
-
+    gameSavesStream.close();
+    //
 
     std::cout << "\nFinished reading the file..." << std::endl;            
+    //
 
     // get user input to end the program
     std::cout << "\nPress any key to continue... " << std::endl;

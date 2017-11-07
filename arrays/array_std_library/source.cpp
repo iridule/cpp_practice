@@ -32,7 +32,7 @@ void print2dArray(array <array <int, WIDTH>, HEIGHT> &arr);
 
 //sorting algorithm --- quicksort
 void quicksort(array <int, LENGTH_UNSORTED> &arr, int LENGTH_UNSORTED);
-void swap(array <int, LENGTH_UNSORTED> &arr, int &a, int &b);
+void swap(array <int, LENGTH_UNSORTED> &arr, int j, int j);
 
 //--------------------------------------------------------------
 //
@@ -141,18 +141,23 @@ void quicksort(array <int, LENGTH_UNSORTED> &arr, int LENGTH_UNSORTED) {
     //chose a pivot start
     //best practice - last element
     int pivot = LENGTH_UNSORTED - 1;
-    int i = 0;
+    int wall = -1;
+    int lowest = 0;
 
-    //check element is less than the pivot
-    if (arr.at(i) <= arr.at(pivot)) {
-        swap(arr, i, pivot);
-        pivot = i;        
+    //
+    for (int i = 0; i < LENGTH_UNSORTED; i++) {
+
+        //
+        if (arr.at(i) <= pivot) {
+            swap(arr, i, wall + 1);
+        }
+        
     }
 
 }
 
 //swap
-void swap(array <int, LENGTH_UNSORTED> &arr, int &i, int &j) {
+void swap(array <int, LENGTH_UNSORTED> &arr, int i, int j) {
     //swap them using indexes
     int temp = arr[i];
     arr[i] = arr[j];

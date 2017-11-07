@@ -31,7 +31,7 @@ void print2dArrayRef(int (&rr)[WIDTH][HEIGHT], int WIDTH, int HEIGHT);
 
 //single array
 void printArray(int arr, int length);
-void printArrayRef(int &arr, int length);
+void printArrayRef(int (&arr)[WIDTH * HEIGHT], int length);
 
 //--------------------------------------------------------------
 int main() {
@@ -242,7 +242,9 @@ void print2dArrayRef(int (&arr)[WIDTH][HEIGHT], int WIDTH, int HEIGHT) {
 }
 
 //same with single dimension
-void printArrayRef(int &arr, int length) {
+//we cannot pass array references without a definite size
+//unless passed by pointer
+void printArrayRef(int (&arr)[WIDTH * HEIGHT], int length) {
     //loop through and print
     for (int i = 0; i < length; i++) 
         cout << arr[i] << endl;

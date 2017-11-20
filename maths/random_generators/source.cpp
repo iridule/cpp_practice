@@ -20,10 +20,9 @@
 // get the C rand and srand - seeded rand 
 // also include the time lib to get time for seeding
 #include <iostream>
+#include <string> 
 #include <random> 
-#include <stdlib.h>
 #include <time.h>
-
 
 //
 int main() {
@@ -46,6 +45,7 @@ int main() {
     std::cout << std::endl;
     std::cout << "Please enter the higher bound: " << std::endl;
     std::cin >> higher;
+    // if (higher == lower) higher = lower + 1;
 
     std::cout << std::endl;
     std::cout << "Your range is: " + std::to_string(lower) + "-" + std::to_string(higher) << std::endl;
@@ -74,15 +74,74 @@ int main() {
     //
 
     // seeding the numbers with the current time
-    unsigned int seed = 0;
+    // first seed - then call rand
+    unsigned int seed = time(NULL);
+    srand(seed);
 
     std::cout << "Producing seeded numbers..." << std::endl;
     for (int i = 0; i < 10; i++) {
-        std::cout << lower + (srand(time(NULL)) % (higher - lower)) << " ";
+        std::cout << lower + rand() % (higher - lower + 1) << " ";
     }
     std::cout << "\n" << std::endl;
 
+    // exploring gaussian random
+    /**
+     *  -   gaussian distribution gives natural random numbers
+     *  -   where there is a 'mean' at which the numbers gather
+     *  -   distribution of numbers such that there is an optimal
+     *      or average point where the numbers gather - forming a bell curve
+     * 
+     *  -   mean in the middle position of the average - what value is the average
+     *  -   standard deviation is the amount the values spread across the curve
+     *      a higher deviation means the values are closer to each other.
+     *  
+    */
+    //
+
+    // first we need a number generator engine
+    std::default_random_engine randomEngine;
+
+    // then a distributor class
+    // this is the standard normal - has mean 1 and std dev 0
+    const double MEAN = 5.0;
+    const double STD_DEV = 3.0;
+    std::normal_distribution <double> distribution(MEAN, STD_DEV);
+
+    // keep on experimenting - eg - rolling the number generator n times to get
+    // a certain amount of values
+    const int MAX_TRIALS = 1000;
+    const int MAX_VALUES = 10;
+
+    // output some test values into an array and count
+    // do not forget to initialise the array 
+    const int PLOT_MIN = 0;
+    const int PLOT_MAX = 10;
+    int plot[PLOT_MAX] = {};
+   
+    // for debug using 5
+    for (int i = 0; i < MAX_TRIALS; i++) {
+
+        // create a random number with the normal distribution transformation
+        // pass the engine to the distributor
+        int number = distribution(randomEngine);
+        std::cout << "iteration: " << i << '\n'; 
+
+        // keep numbers within a range and count 
+        // preincrement counts the number of times that number occure
+        if (number >= PLOT_MIN && number < PLOT_MAX) {
+            ++plot[number];            
+            std::cout << "number " << number << '\n';
+            std::cout << "count for " << number << " is: " << plot[number] << std::endl;
+        }
+
+    }
+    
+    // draw the array
+    for (int number : plot) {
+        std::string bar = std::string(number, '=');
+        std::cout << bar << std::endl;
+    }
+
     //
     return EXIT_SUCCESS;
-
 }

@@ -28,13 +28,17 @@ int main() {
 
     //
     std::cout << "Capacity of the vector " << test.get_size() << std::endl;
-    std::cout << "Active element total in the vector " << test.get_count() << std::endl;
+    std::cout << "Active elements total in the vector " << test.get_count() << std::endl;
 
     //
-    // Vector<int> test2{};
-    // test2 = test;
+    Vector<int> test2{};
+    test2 = test;
 
-    // std::cout << "Testing the '=' overloaded operator" << std::endl;
+    std::cout << "Testing the '=' overloaded operator" << std::endl;
+    test2.print();
+
+    std::cout << "Popping last element" << std::endl;
+    // test2.pop_back();
     // test2.print();
 
     //  

@@ -34,10 +34,11 @@ class Vector {
     //
     public:
 
-        // constructors
+        // constructors/destructors
         Vector();
         Vector(unsigned int _size);
         Vector(const Vector<T> &vector);
+        ~Vector();
 
         // capacity
         void resize();
@@ -52,6 +53,8 @@ class Vector {
         // modify
         void insert(unsigned int index, T t);
         void push_back(T t);
+        void pop_back();
+        void clear();
         
         // extras
         void print();   
@@ -88,6 +91,20 @@ Vector<T>::Vector(unsigned int _size) {
     for (int i = 0; i < size; i++) 
         buffer[i] = T{};
     count = size;
+}
+
+// copy constructor
+template<class T>
+Vector<T>::Vector(const Vector<T> &vector) {
+    copy(vector);
+}
+
+// delete/deallocate the buffer memory
+// must be careful of nullptr
+template <class T>
+Vector<T>::~Vector() {
+    if (buffer != nullptr) 
+        delete[] buffer;
 }
 
 // capacity
@@ -183,8 +200,30 @@ void Vector<T>::push_back(T t) {
     insert(count, t);
 }
 
+// pop back
+// a question - is this a particularly heavy implementation
+// 
+template <class T>
+void Vector<T>::pop_back() {
+    T *array = new T[count - 1];
+    for (int i = 0; i < count - 1; i++) 
+        array[i] = buffer[i];
+    if (buffer != nullptr) 
+        delete[] buffer;
+    buffer = array;
+}
+
+// 
+template<class T>
+void Vector<T>::clear() {
+    if (buffer != nullptr)
+        delete[] buffer;
+    size = count = 0;
+    buffer = nullptr;
+}
+
 // extras
-//
+//  
 template <class T>
 void Vector<T>::print() {
     for (int i = 0; i < count; i++)

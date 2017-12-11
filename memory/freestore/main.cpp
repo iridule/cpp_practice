@@ -19,6 +19,6 @@ int main() {
     delete point;
 
     //
-    return 0;
+    return 0;  
 
 }

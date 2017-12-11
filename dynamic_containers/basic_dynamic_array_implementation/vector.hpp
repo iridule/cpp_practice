@@ -30,8 +30,8 @@
 //
 template <class T> 
 class Vector {
-
     //
+
     public:
 
         // constructors/destructors
@@ -86,6 +86,7 @@ Vector<T>::Vector()
 //
 template <class T>
 Vector<T>::Vector(unsigned int _size) {
+    std::cout << "Creating vector of size: " << _size << std::endl;    
     size = _size;
     buffer = new T[size];
     for (int i = 0; i < size; i++) 
@@ -96,6 +97,7 @@ Vector<T>::Vector(unsigned int _size) {
 // copy constructor
 template<class T>
 Vector<T>::Vector(const Vector<T> &vector) {
+    std::cout << "Copying" << std::endl;
     copy(vector);
 }
 
@@ -103,7 +105,8 @@ Vector<T>::Vector(const Vector<T> &vector) {
 // must be careful of nullptr
 template <class T>
 Vector<T>::~Vector() {
-    if (buffer != nullptr) 
+    std::cout << "Deallocating memory" << std::endl;
+    if (buffer != nullptr)
         delete[] buffer;
 }
 
@@ -111,14 +114,17 @@ Vector<T>::~Vector() {
 // resize array - deal with size = 0 - return 1 as the max instead
 template <class T>
 void Vector<T>::resize() {
-    
+
+    //
     size = std::max(minSize, size * 2);
     T *array = new T[size];
     
+    //
     for (int i = 0; i < count; i++) {
         array[i] = buffer[i];
     }
-        
+
+    //  
     if (buffer != nullptr) delete[] buffer;
     buffer = array;
 
@@ -156,14 +162,32 @@ T Vector<T>::operator[] (int index) const {
 }
 
 // "=" operator - must check if not the same
+/**
+ *  -   if the buffer is not empty the delete the buffer
+ *  -   then copy the value from the other vector
+ *  -   always return value to this
+*/
 template <class T>
 Vector<T> Vector<T>::operator= (const Vector<T> &vector) {
+
+    //
+    // check assignment to self
+    // delete the current buffer
+    // copy the vector over
+    //
     if (this != &vector) {
         if (buffer != nullptr) delete[] buffer;
         copy(vector);
-    } else {
-        return *this;
-    } 
+    }
+
+    // 
+    // return the object value via derefenced pointer 
+    // to copy the value over to the other object
+    // if is the same then it just returns copy to self
+    // else it will return a modified copy
+    //
+    return *this; 
+
 }
 
 // modification
@@ -189,7 +213,7 @@ void Vector<T>::insert(unsigned int index, T t) {
 template <class T>
 void Vector<T>::copy(const Vector<T> &vector) {
     count = size = vector.get_count();
-    buffer = (size == 0) ? nullptr : new T[size];
+    buffer = (size <= 0) ? nullptr : new T[count];
     for (int i = 0; i < count; i++)
         buffer[i] = vector[i];
 }

@@ -34,10 +34,10 @@ int main() {
     Vector<int> test2{};
     test2 = test;
 
-    std::cout << "Testing the '=' overloaded operator" << std::endl;
+    // std::cout << "Testing the '=' overloaded operator" << std::endl;
     test2.print();
 
-    std::cout << "Popping last element" << std::endl;
+    // std::cout << "Popping last element" << std::endl;
     // test2.pop_back();
     // test2.print();
 

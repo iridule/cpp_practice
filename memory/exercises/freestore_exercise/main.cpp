@@ -6,10 +6,12 @@
 
 //
 #include <iostream>
+#include <string>
 #include <cstdlib>
 
 // helper functions
 void print(std::string string) { std::cout << string << std::endl; }
+void print(const char *string) { std::cout << string << std::endl; }
 void print(int number) { std::cout << number << std::endl; }
 void print(int *pointer) { std::cout << pointer << std::endl; }
 void printv(int *pointer) { std::cout << *pointer << std::endl; }
@@ -96,56 +98,92 @@ int main() {
 
     //
     print("Begin adding chars");
+    print("Press any key to start");
+
+    // 
     int size = 0;
+    int length = 0;
+    char temp;
     char *buffer = nullptr;
-    char *string5 = nullptr;
+    char *userString = new char[length];
+
+    //
     if (std::cin.get()) {
         while(true) {
 
-            // get the user input
-            print("Enter a character");
-            char temp;
+            //
             std::cin >> temp;
             size++;
-        
-            // create the array first iteration
-            if (string5 == nullptr) {
-                string5 = new char[2];
-                string5[0] = temp;
-            } else {
-
-                //
-                buffer = new char[size];
-                std::cout << string5 << std::endl;
-                std::cout << buffer << std::endl;                
-
-                for (int i = 0; i < size; i++) 
-                    buffer[i] = string5[i];
-                buffer[size - 2] = temp;    
-                
-                //
-                string5 = buffer;
-                delete[] buffer;    
-
-            }
-
-        
-            // //
-            if(temp == '!') {
-                buffer[size] = '\0';
+            length = size + 1;
+            
+            // terminate
+            if (temp == '!') {
+                userString[length - 1] = '\0';
                 break;
+            } else {
+                // resize   
+                buffer = new char[length];
+                for (int i = 0; i < size; i++) 
+                buffer[i] = userString[i];
+                buffer[size - 1] = temp;
+                delete[] userString;
+                userString = buffer;
             }
+            
+        }
+    }
 
+    //
+    print(userString);
+
+    //
+    print("Working with strings");
+    print("Press any key to start");
+    std::string str;
+    std::string userString2;
+
+    //
+    if (std::cin.get()) {
+        while(true) {
+
+            //
+            std::cin >> str;
+            if (str == "!")
+                break;
+            else 
+                userString2 += str; 
 
         }
     }
+
     //
-    std::cout << string5 << std::endl;
+    print(userString2);    
+
+    //
+    print("Stack growth");
+    
+    //
+    int s1 = 10;
+    int s2 = 20;
+    int s3 = 30;
+    int s4 = 40;
+    int s5 = 50;  
+    print(&s1);
+    print(&s2);
+    print(&s3);            
+    print(&s4);
+    print(&s5);   
+
+    //
+    int *s6;
+    for (int i = 0; i < 5; i++) {
+        s6 = new int(i);
+        print(s6);  
+    }                         
 
     //
     std::cin.get();
-
-    //
     return 0;
 
 }
+

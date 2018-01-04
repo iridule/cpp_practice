@@ -7,5 +7,5 @@
 
 //--------------------------------------------------------------
 App::App() {
-    std::cout << "Empty App" << std::endl;
+    std::cout << "Empty App - edit me." << std::endl;
 }
